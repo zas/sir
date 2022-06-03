@@ -302,8 +302,9 @@ def convert_artist_simple(obj, include_aliases=True):
 
 def convert_artist_relation(obj):
     """
-    :type obj: :class:`mbdata.models.LinkArtistWork` or
-               :class:`mbdata.models.LinkArtistEvent`
+    :type obj: :class:`mbdata.models.LinkArtistEvent` or
+               :class:`mbdata.models.LinkArtistURL` or
+               :class:`mbdata.models.LinkArtistWork`
     """
     relation = convert_relation(obj)
     artist = convert_artist_simple(obj.artist, include_aliases=False)
@@ -313,8 +314,9 @@ def convert_artist_relation(obj):
 
 def convert_artist_relation_list(obj):
     """
-    :type obj: :class:`[mbdata.models.LinkArtistWork]` or
-               :class:`[mbdata.models.LinkArtistEvent]`
+    :type obj: :class:`[mbdata.models.LinkArtistEvent]` or
+               :class:`[mbdata.models.LinkArtistURL]` or
+               :class:`[mbdata.models.LinkArtistWork]`
     """
     relation_list = models.relation_list(target_type="artist")
     [relation_list.add_relation(convert_artist_relation(r)) for r in obj]
@@ -1157,6 +1159,9 @@ def convert_release_group(obj):
 
 
 def convert_release_relation(obj):
+    """
+    :type obj: :class:`mbdata.models.LinkReleaseURL`
+    """
     relation = convert_relation(obj)
     release_obj = obj.release
     release = models.release(id=str(release_obj.gid), title=release_obj.name)
@@ -1167,6 +1172,9 @@ def convert_release_relation(obj):
 
 
 def convert_release_relation_list(obj):
+    """
+    :type obj: :class:`[mbdata.models.LinkReleaseURL]`
+    """
     relation_list = models.relation_list(target_type="release")
     [relation_list.add_relation(convert_release_relation(r)) for r in obj]
     return relation_list
